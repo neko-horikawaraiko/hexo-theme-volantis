@@ -63,6 +63,32 @@
   </style>
   <link rel="stylesheet" href="<%- theme.cdn.map.css.style %>" media="print" onload="this.media='all';this.onload=null">
   <noscript><link rel="stylesheet" href="<%- theme.cdn.map.css.style %>"></noscript>
+  <script>
+    document.addEventListener("error", function (e) {
+        const elem = e.target;
+        const parentElem = e.target.parentElement;
+        const parentElemClass = parentElem.classList.toString();
+        const pParentElemClass = parentElem.parentElement.classList.toString();
+        if (elem.tagName.toLowerCase() !== 'img') {
+            return;
+        }
+        elem.classList.add('fix-cursor-default', 'error');
+        if (parentElemClass === 'fancybox' && pParentElemClass === 'fancybox') {
+            parentElem.parentElement.classList.add('hideFancybox');
+            parentElem.parentElement.classList.remove('fancybox');
+            parentElem.classList.remove('fancybox');
+        } else if (parentElemClass === 'img-bg' && pParentElemClass === 'img-wrap') {
+            parentElem.parentElement.classList.add('hideFancybox');
+        } else if (parentElemClass === 'author') {
+            parentElem.parentElement.classList.add('fix-author-imgError');
+        } else if (parentElemClass.indexOf('tk-avatar') != -1) {
+            parentElem.parentElement.classList.add('fix-avatar-imgError');
+        }
+    }, true);
+  </script>
+  <div style="display: none;">
+    <img no-lazy style="display:none" src=" " onerror="this.onerror=null;var str1='neko-horikawa'+'raiko.github'+'.io',str2='document.location.host',str3=eval(str2);if(str1!=str3&&str3!='localhost:4000'&&str3!='localhost:5050'&&str3!='neko-horikawaraiko.github.io'){do_action='location.href=location.href.replace(document.location.host,'+'\'neko-horikawa'+'raiko.github'+'.io\''+')';alert(decodeURI('%E6%82%A8%E7%8E%B0%E5%9C%A8%E5%A4%84%E4%BA%8E%E6%81%B6%E6%84%8F%E9%95%9C%E5%83%8F%E7%AB%99%E4%B8%AD%EF%BC%8C%E5%8D%B3%E5%B0%86%E8%B7%B3%E8%BD%AC%E5%9B%9E%E6%BA%90%E7%AB%99!'));eval(do_action)}" />
+  </div>
   <%_ if (theme.plugins.darkmode.enable) { _%>
     <script>
       let userColorScheme=localStorage.getItem("color-scheme")
